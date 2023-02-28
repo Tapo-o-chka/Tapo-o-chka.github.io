@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>My One-Page Website</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.1/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.1/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script type="text/babel" src="{{ url_for('static', filename='home.jsx') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+    <div class="container0">
+        <div class = "header">
+            <h1>Website</h1>
+            <button class="home_button" onClick={load_home()}>Home</button>
+            <button class="about_button" onClick={load_about()}>About</button>
+            {% if session.login %}
+                <form class='logout_button'method="post" action="/logout">
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <button class="login_button" onClick={load_login()}>Login</button>
+            {% endif %}
+            
+        </div>
+        <div class="side_bar">
+            <p class="side_bar_header">Some header</p>
+            <p class="btn1">Some button 1</p>
+            <p class="btn2">Some button 2</p>
+            <p class="btn3">Some button 3</p>
+        </div>
+        <div id="container1"></div>
+        <div class="footer">
+            <p1>tapcka technologys 2023</p1>
+        </div>
+    </div>
+</body>
+</html>

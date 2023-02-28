@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>My One-Page Website</title>
+    <script type="text/babel" src="{{ url_for('static', filename='app.jsx') }}"></script>
+    <script type="text/babel" src="{{ url_for('static', filename='app.jsx') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.1/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.1/umd/react-dom.production.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <div class="container0">
+        <div class = "header">
+            <p class="website_header">Website {{ warehouse }}</p>
+            <button class="orders_button" onClick={Load_orders()}>Order</button>
+            <button class="approve_button" onClick={Load_toapprove()}>To Approve</button>
+            <button class="hystory_button" onClick={load_hystory()}>Hystory</button>
+            <form class='logout_button'method="post" action="/logout">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+        <div id="side_bar"></div>
+        <div id="container1"></div>
+        <div class="footer">
+            <p1>tapcka technologys 2023</p1>
+        </div>
+    </div>
+</body>
+</html>
