@@ -6,34 +6,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.1/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.1/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <script type="text/babel" src="{{ url_for('static', filename='home.jsx') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <script type="text/babel" src="{{ url_for('static', filename='javascript/home.jsx') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
     <div class="container0">
         <div class = "header">
-            <h1>Website</h1>
-            <button class="home_button" onClick={load_home()}>Home</button>
-            <button class="about_button" onClick={load_about()}>About</button>
+            <img src="{{ url_for('static', filename='images/sklad-icon2.png') }}" alt="Description of the image">
+            <h1>Складисиум</h1>
+            <button class="home_button" onClick={Load_home()}>Главная</button>
+            <button class="about_button" onClick={load_about()}>О нас</button>
             {% if session.login %}
+                <form action="{{ url_for('web_app') }}" method="get">
+                    <input type="hidden" name="redirect" value="true">
+                    <button type="submit">Склад</button>
+                </form>    
                 <form class='logout_button'method="post" action="/logout">
-                    <button type="submit">Logout</button>
+                    <button type="submit">Выход</button>
                 </form>
             {% else %}
-                <button class="login_button" onClick={load_login()}>Login</button>
+                <button class="login_button" onClick={load_login()}>Вход</button>
             {% endif %}
-            
-        </div>
-        <div class="side_bar">
-            <p class="side_bar_header">Some header</p>
-            <p class="btn1">Some button 1</p>
-            <p class="btn2">Some button 2</p>
-            <p class="btn3">Some button 3</p>
         </div>
         <div id="container1"></div>
-        <div class="footer">
-            <p1>tapcka technologys 2023</p1>
-        </div>
     </div>
 </body>
 </html>

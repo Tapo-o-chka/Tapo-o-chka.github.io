@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family: 'Prompt', sans-serif;
+            color:white;
+            background-color: #202731;
+        }
+        section{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 400px;
+            padding: 100px 20vw;
+        }
+        .blue{
+            background-color: blue;
+        }
+        .red{
+            background-color: red;
+        }
+        .pink{
+            background-color: pink;
+        }
+        .curve{
+            position: absolute;
+            height: 225px;
+            width: 100%;
+            bottom: 0;
+        }
+        .curve::before{
+            content: '';
+            display: block;
+            position: absolute;
+            border-radius: 100% 50%;
+            width:55%;
+            height: 100%;
+            background-color: #202731;
+            transform: translate(85%, 60%);
+        }
+        .curve::after{
+            content: '';
+            display: block;
+            position: absolute;
+            border-radius: 100% 50%;
+            width:55%;
+            height: 100%;
+            background-color: blue;
+            transform: translate(-4%,40%);
+            z-index: -1;
+        }
+
+    </style>
+</head>
+<body>
+    <section class="blue"> 
+        <h1>Nice Curves</h1>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vitae dolorum fugiat maiores itaque voluptatibus omnis nobis maxime corporis dolorem ratione? Veritatis hic doloribus maxime maiores vitae obcaecati omnis dolorem vel.</p>
+        <div class="curve"></div>
+    </section>
+    <section class="bubble">
+        <h1>Nice Curves</h1>
+        <p>Exercitationem impedit fuga assumenda omnis, amet distinctio itaque nisi cumque accusantium quaerat quod corrupti dolorem non. Quam ducimus fugiat ullam exercitationem consectetur. Placeat iste rerum cupiditate eligendi veniam doloremque officia!</p>
+    </section>
+    <section class="dark">
+        <h1>Nice Curves</h1>
+        <p>A dignissimos porro blanditiis vel placeat rerum nam esse delectus at labore eum nisi eaque eius veritatis autem itaque aperiam accusantium ipsam repudiandae magni, quibusdam tempore voluptate assumenda hic. Maiores.</p>
+    </section>
+    <section>
+        <h1>Nice Curves</h1>
+        <p>Sit cupiditate ea voluptatibus, soluta, adipisci quam odit, id quos modi consectetur quo? Culpa iste, excepturi sapiente iusto vel fugit unde dolorum eveniet nostrum architecto facilis distinctio ullam perspiciatis dignissimos.</p>
+    </section>
+    <section>
+        <h1>Nice Curves</h1>
+        <p>Soluta, nobis accusamus ea debitis ratione deleniti corporis iste, similique doloribus veritatis quia! Voluptatum, tenetur laboriosam. Facilis sequi voluptatibus natus veritatis cumque facere exercitationem illum at dicta dolores, alias provident!</p>
+    </section>
+    <section>
+        <h1>Nice Curves</h1>
+        <p>Provident voluptas nulla hic, adipisci necessitatibus illum officia enim beatae alias magni fugiat amet numquam suscipit incidunt qui dignissimos quam debitis rem voluptatem tenetur culpa? Doloremque facere quibusdam aut aliquam.</p>
+    </section>
+    <section>
+        <h1>Nice Curves</h1>
+        <p>Voluptatibus ipsa fugit eum deserunt officiis, natus iure ipsam nisi, itaque pariatur nam vel totam quidem laborum a id? Culpa, accusamus! Eaque eos non assumenda dolore, sit quisquam explicabo nam.</p>
+    </section>
+    <section>
+        <h1>Nice Curves</h1>
+        <p>Vero maxime provident quasi magni sequi voluptas nostrum dignissimos, non corrupti suscipit, assumenda itaque tempora iure accusamus ut sint iusto optio molestias! Rerum hic est quaerat pariatur doloribus neque expedita.</p>
+    </section>
+
+</body>
+</html>

@@ -99,5 +99,10 @@ def hystory(type):
             orderz = db.get_orders(type,2,session['warehouse'])
             print(orderz)
             return orderz
-
+@app.route('/test')
+def test():
+    return render_template('test.html')
+@app.route('/test2')
+def test2():
+    return render_template('test2.html')
 app.run(debug=True)
