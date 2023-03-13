@@ -2,9 +2,11 @@ from flask import *
 import re
 import database
 
+
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 db = database.Database('base.db')
+
 @app.route('/home')#r
 def home():
     return render_template("home.html")
@@ -23,7 +25,7 @@ def login():
         if re.match(r"[A-Za-z0-9]{3,}", login) and re.fullmatch(r"[A-Za-z0-9]{7,}", password):
             data = db.login(login,password)
             if data != None:
-                session['role'],session['warehouse'],session['login'] = data[1],data[2],login
+                session['functions'],session['warehouse'],session['login'] = db.lazy_get_functionality(data[0]),data[1],login
             return redirect('/home')
 @app.route('/logout',methods=['POST']) #r
 def logout():
@@ -31,7 +33,7 @@ def logout():
         if 'warehouse' in session and 'login' in session:
             del session['warehouse']
             del session['login']
-            del session['role']
+            del session['functions']
             return redirect('/home')
 @app.route('/register',methods=['POST']) #r
 def register():    
@@ -42,8 +44,11 @@ def register():
         if re.match(r"[A-Za-z0-9]{3,}", login) and re.fullmatch(r"[A-Za-z0-9]{7,}", password):
             db.register_warehouse(login,password,email)
             data = db.login(login,password)
-            session['login'],session['warehouse'],session["role"] = login,data[2], 0
+            session['login'],session['warehouse'],session["functions"] = login,data[2], 0
             return redirect('/app')
+        
+
+
 @app.route('/orders/<type>',methods=['GET']) #r
 def orders(type):
     if request.method == "GET":
@@ -105,4 +110,11 @@ def test():
 @app.route('/test2')
 def test2():
     return render_template('test2.html')
+
+@app.route('/get_jsx_function/<func_id>')
+def get_jsx_function(func_id):
+    with open(f'C:\\Users\\ander\\OneDrive\\Документы\\GitHub\\tapkasklad.github.io\\plugins\\function{func_id}.jsx') as f:
+        jsx_function = f.read()
+    return jsonify(jsx_function=jsx_function)
+
 app.run(debug=True)
