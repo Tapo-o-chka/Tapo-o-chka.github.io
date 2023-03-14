@@ -80,7 +80,7 @@ class Database:
         self.cursor.execute('''
             INSERT INTO accounts (login, password, functionality, warehouse)
             VALUES (?, ?, ?, ?)
-        ''', (login, password, "0", warehouse_id))
+        ''', (login, password, "3", warehouse_id))
         self.conn.commit()
     def register_user(self, login, password, functionality ,warehouse_id):
         self.cursor.execute('''
@@ -121,7 +121,6 @@ class Database:
             results.append([row[0],row[2],row[3],row[4],row[5]])
         return results
     def get_functionality(self, id_str=None):
-
         if id_str:
             ids = id_str.split(',')
             placeholders = ','.join(['?'] * len(ids))
@@ -133,8 +132,8 @@ class Database:
         for row in self.cursor.fetchall():
             results.append({'id': row[0], 'name': row[1], 'description': row[2]})
         return results
-    def lazy_get_functionality(self, user_id):
-        self.cursor.execute('SELECT functionality FROM accounts WHERE id = ?', (user_id,))
+    def lazy_get_functionality(self, user_login):
+        self.cursor.execute('SELECT functionality FROM accounts WHERE login = ?', (user_login,))
         id_str = self.cursor.fetchone()[0]
 
         if id_str:
@@ -150,12 +149,22 @@ class Database:
         return results
 
     def edit_functionality(self, functionality, login):
+        results = []
+        for functional in functionality:
+            self.cursor.execute('SELECT id FROM functionality WHERE name = ?', (functional,))
+            results.append(self.cursor.fetchone())
+        functionality = ''
+        for result in results:
+            functionality += f'{result[0]},'
+        else:
+            functionality = functionality[:-1]
         self.cursor.execute('''
-            UPDATE account
+            UPDATE accounts
             SET functionality = ?
             WHERE login = ?
         ''', (functionality, login))
         self.conn.commit()
+        return functionality
 
     def add_functionality(self, name, description):
         self.cursor.execute('''
@@ -163,3 +172,12 @@ class Database:
             VALUES (?, ?)
         ''', (name, description))
         self.conn.commit()
+    def get_warehouse_acounts(self,warehouse_id):
+        self.cursor.execute('SELECT functionality FROM accounts WHERE warehouse = ?', (warehouse_id,))
+        funcs = [self.get_functionality(func[0]) for func in self.cursor.fetchall()]
+        self.cursor.execute('SELECT login, password FROM accounts WHERE warehouse = ?', (warehouse_id,))
+        login_password = [acc for acc in self.cursor.fetchall()]
+        accounts = [[login_password[i][0],login_password[i][1],funcs[i]] for i in range(len(funcs))]
+        return accounts
+db = Database('base.db')
+db.edit_functionality(['lorem'],'NeTapka')

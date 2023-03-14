@@ -1,0 +1,174 @@
+<table id="userTable">
+    <thead>
+      <tr>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Functionality</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  
+  <script>
+    // Make API call to get user data
+    fetch("/api/warehouse/get_users/")
+      .then((response) => response.json())
+      .then((data) => {
+        // Get table body
+        const tableBody = document.querySelector("#userTable tbody");
+  
+        // Iterate through each user and add a row to the table
+        data.forEach((user) => {
+          const row = tableBody.insertRow();
+          const loginCell = row.insertCell();
+          const passwordCell = row.insertCell();
+          const functionalityCell = row.insertCell();
+  
+          loginCell.textContent = user.login;
+          passwordCell.textContent = user.password;
+  
+          // If the user has functionality, create a tags input
+          if (user.functionality.length > 0) {
+            const functionalityTags = user.functionality.map((func) => func.name);
+            functionalityCell.innerHTML = `
+              <div class="tags-input">
+                ${functionalityTags
+                  .map(
+                    (tag) => `
+                    <span class="tag">
+                      ${tag}
+                      <span class="remove-tag">&times;</span>
+                    </span>
+                  `
+                  )
+                  .join("")}
+                <input type="text" class="new-tag-input">
+                <button class="submit-tags-btn" style="display:none;">Submit</button>
+              </div>
+            `;
+  
+            // Listen for click events on remove tag buttons
+            const tagsInput = functionalityCell.querySelector(".tags-input");
+            tagsInput.addEventListener("click", (event) => {
+              const removeButton = event.target.closest(".remove-tag");
+              if (removeButton) {
+                removeButton.parentElement.remove();
+                functionalityCell.querySelector(".submit-tags-btn").style.display =
+                  "inline-block";
+              }
+            });
+  
+            // Listen for enter key press in new tag input
+            const newTagInput = functionalityCell.querySelector(".new-tag-input");
+            newTagInput.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" && newTagInput.value) {
+                const tag = newTagInput.value.trim();
+                const tagSpan = document.createElement("span");
+                tagSpan.classList.add("tag");
+                tagSpan.innerHTML = `
+                  ${tag}
+                  <span class="remove-tag">&times;</span>
+                `;
+                tagsInput.insertBefore(tagSpan, newTagInput);
+                newTagInput.value = "";
+                functionalityCell.querySelector(".submit-tags-btn").style.display =
+                  "inline-block";
+              }
+            });
+  
+            const submitButton = functionalityCell.querySelector('.tags-input .submit-tags-btn');
+        submitButton.addEventListener('click', () => {
+          const tagSpans = tagsInput.querySelectorAll('.tag');
+          const newTags = Array.from(tagSpans).map(tag => tag.textContent.trim());
+          const login = user.login;
+          fetch('/api/warehouse/edit_tags/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              login: login,
+              tags: newTags
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(newTags);
+            submitButton.style.display = 'none';
+          })
+          .catch(error => console.error(error));
+        });
+  
+          }
+        });
+      })
+      .catch((error) => console.error(error));
+  </script>  
+  
+<style>
+.tags-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  min-height: 24px;
+  border: 1px solid #ccc;
+  padding: 2px;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 4px;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+.tags-input:focus-within {
+  border-color: #007bff;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  background-color: #007bff;
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.tag span {
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.tag span:hover {
+  text-decoration: underline;
+}
+
+.submit-tags-btn {
+  display: none;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tags-input:hover .submit-tags-btn {
+  display: inline-block;
+  margin-left: 4px;
+  align-self: flex-start;
+}
+
+.tags-input:hover .remove-tag {
+  margin-right: 4px;
+}
+
+.tags-input:hover .tag:last-child {
+  margin-right: 0;
+}
+
+</style>
