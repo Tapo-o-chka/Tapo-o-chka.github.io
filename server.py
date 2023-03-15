@@ -106,7 +106,7 @@ def hystory(type):
 
 @app.route('/get_jsx_function/<func_id>')
 def get_jsx_function(func_id):
-  with open(f'C:\\Users\\ander\\OneDrive\\Документы\\GitHub\\tapkasklad.github.io\\plugins\\function{func_id}.html', encoding='utf-8') as f:
+  with open(f'plugins\\function{func_id}.html', encoding='utf-8') as f:
     html_template = f.read()
   return html_template
 
