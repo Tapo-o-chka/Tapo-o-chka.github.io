@@ -1,21 +1,120 @@
 <meta charset="UTF-8" />
-<div className="card">
-    <div className="content">
-        <h3>Вход</h3>
-        <form method="post" action="api/warehouse/register_users">
-            <label htmlFor="login"> Логин:</label>
-            <input type="text" id="login" name="login" />
-            <br /><br />
-            <label htmlFor="password">Пароль:</label>
-            <input type="password" id="password" name="password" />
-            <br /><br />
-            <label htmlFor="functions">Функции:</label>
-            <input type="text" id="functions" name="functions" />
-            <br /><br />
-            <input type="submit" value="Логин" />
-        </form>
-    </div>
+<div class="card">
+  <div class="content">
+    <h3>Регистрация под аккаунта</h3>
+    <form id="login-form" method="post" action="api/warehouse/register_users">
+      <label for="login"> Логин:</label>
+      <input type="text" id="login" name="login" />
+      <br /><br />
+      <label for="password">Пароль:</label>
+      <input type="text" id="password" name="password" />
+      <br /><br />
+      <label for="functions">Функции:</label>
+      <input type="text" id="functions" name="functions" />
+      <br /><br />
+      <input type="submit" value="подтвердить" />
+    </form>
+    <div id="message"></div>
+  </div>
 </div>
-<styles>
 
-</styles>
+<script id="form-script">
+  // Check if the script has already been loaded
+  if (!document.getElementById('form-script')) {
+    const form = document.getElementById("login-form");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+      });
+      const data = await response.json();
+      if (response.ok) {
+        message.textContent = "Аккаунт зарегистрирован!";
+      } else {
+        message.textContent = "Ошибка регистрации: " + data.message;
+      }
+    });
+  }
+</script>
+<style>
+      .card{
+    position: relative;
+    width: 350px;
+    height: 400px;
+    margin:30px;
+    box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(3px);
+  }
+  .card .content{
+    padding:20px;
+    text-align: center;
+    transition: 0.5s;
+  }
+  .card .content h3{
+    font-size: 1,8em;
+    color: #ffffff;
+    z-index: 1; 
+    font-weight: 600;
+  }
+  .card .content p{
+    font-size: 1em;
+    color: #fff;
+    font-weight: 550;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+.card .content form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card .content label {  
+  font-size: 1em;
+  color: #fff;
+  font-weight: 550;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.card .content input[type="text"],
+.card .content input[type="password"],
+.card .content input[type="submit"] {
+  width: 95%;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
+  font-size: 1em;
+}
+
+.card .content input[type="submit"] {
+  width: auto;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width:100%;
+}
+
+.card .content input[type="submit"]:hover {
+  background-color: #0062cc;
+}
+</style>

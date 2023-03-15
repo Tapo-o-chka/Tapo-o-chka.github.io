@@ -1,9 +1,9 @@
 <meta charset="UTF-8"></meta>
-<div class="all">
+<div class="all">    
     <div style="display: flex;">
         <button id="all-orders-btn" onclick="loadAllOrders()">Загрузить все</button>
         <button id="outcoming-orders-btn" onclick="loadOutcomingOrders()">Загрузить исходящие</button>
-        <button id="incoming-orders-btn" onclick="loadIncomingOrders()">Загрузить входящие</button>
+        <button id="approved-orders-btn" onclick="loadIncomingOrders()">Загрузить входящие</button>
     </div>
     <div id="table-container"></div>
 </div>
@@ -23,6 +23,7 @@
             <td>${item[3]}</td>
             <td>${item[4]}</td>
             <td><button onclick="toApprove(${item[0]})">Approve</button></td>
+            <td><button onclick="Reject(${item[0]})">Reject</button></td>
           </tr>
         `;
       });
@@ -37,6 +38,7 @@
               <th>Дата</th>
               <th>Место</th>
               <th>Подтвердить</th>
+              <th>Отклонить</th>
             </tr>
           </thead>
           <tbody>
@@ -61,14 +63,14 @@
 }
 
 function loadAllOrders() {
-  loadOrders('/orders/all', 'table-container');
+  loadOrders('/approvement/all', 'table-container');
 }
 
 function loadOutcomingOrders() {
-  loadOrders('/orders/outcoming', 'table-container');
+  loadOrders('/approvement/outcoming', 'table-container');
 }
 function loadIncomingOrders() {
-  loadOrders('/orders/incoming', 'table-container');
+  loadOrders('/approvement/incoming', 'table-container');
 }
 
 function toApprove(id) {
@@ -89,10 +91,28 @@ function toApprove(id) {
   xhr.open('POST', `/toapprove/${id}`);
   xhr.send();
 }
+function Reject(id) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      alert('Order approved!');
+    } else {
+      console.error(xhr.statusText);
+    }
+  };
+
+  xhr.onerror = function () {
+    console.error(xhr.statusText);
+  };
+
+  xhr.open('POST', `/reject/${id}`);
+  xhr.send();
+}
 </script>
 <style>
 .all{
-    padding: 50px; 
+    padding: 50px;
     display: grid;
     grid-template-rows: 90px auto;
 }

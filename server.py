@@ -45,7 +45,7 @@ def register():
         if re.match(r"[A-Za-z0-9]{3,}", login) and re.fullmatch(r"[A-Za-z0-9]{7,}", password):
             db.register_warehouse(login,password,email)
             data = db.login(login,password)
-            session['login'],session['warehouse'],session["functions"] = login,data[2], 0
+            session['login'],session['warehouse'],session["functions"] = login,data[1], 0
             return redirect('/app')
         
 @app.route('/orders/<type>',methods=['GET']) #r
@@ -140,5 +140,22 @@ def get_warehouse_users():
             return jsonify(results)
         else:
             return jsonify([])
-
+@app.route('/api/warehouse/register_users',methods=['POST'])
+def register_users():
+    if 'warehouse' in session and 'login' in session:
+        user_login = request.form["login"]
+        user_password = request.form["password"]
+        user_functions = request.form["functions"]
+        try:
+            db.register_user(user_login,user_password,user_functions,session['warehouse'])
+            return jsonify(success=True), 200
+        except: 
+            return jsonify(success=False), 401
+@app.route('/api/warehouse/delete_user/<user_id>',methods=['POST'])
+def delete_users(user_id):
+    if 'warehouse' in session and 'login' in session:
+        if db.delete_user(user_id,session['warehouse']) == 1:
+            return jsonify(success=True), 200
+        else:
+            return jsonify(success=False), 401
 app.run(debug=True)

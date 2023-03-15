@@ -1,11 +1,11 @@
 <meta charset="UTF-8"></meta>
 <div class="all">
-    <div style="display: flex;">
-        <button id="all-orders-btn" onclick="loadAllOrders()">Загрузить все</button>
-        <button id="outcoming-orders-btn" onclick="loadOutcomingOrders()">Загрузить исходящие</button>
-        <button id="incoming-orders-btn" onclick="loadIncomingOrders()">Загрузить входящие</button>
-    </div>
-    <div id="table-container"></div>
+<div style="display: flex;">
+    <button id="all-orders-btn" onclick="loadAllOrders()">Загрузить все</button>
+    <button id="outcoming-orders-btn" onclick="loadOutcomingOrders()">Загрузить исходящие</button>
+    <button id="approved-orders-btn" onclick="loadIncomingOrders()">Загрузить входящие</button>
+  </div>
+  <div id="table-container"></div>
 </div>
 <script>
     function loadOrders(url, containerId) {
@@ -22,7 +22,6 @@
             <td>${item[2]}</td>
             <td>${item[3]}</td>
             <td>${item[4]}</td>
-            <td><button onclick="toApprove(${item[0]})">Approve</button></td>
           </tr>
         `;
       });
@@ -36,7 +35,6 @@
               <th>Тип</th>
               <th>Дата</th>
               <th>Место</th>
-              <th>Подтвердить</th>
             </tr>
           </thead>
           <tbody>
@@ -61,42 +59,23 @@
 }
 
 function loadAllOrders() {
-  loadOrders('/orders/all', 'table-container');
+  loadOrders('/hystory/all', 'table-container');
 }
 
 function loadOutcomingOrders() {
-  loadOrders('/orders/outcoming', 'table-container');
+  loadOrders('/hystory/outcoming', 'table-container');
 }
 function loadIncomingOrders() {
-  loadOrders('/orders/incoming', 'table-container');
-}
-
-function toApprove(id) {
-  const xhr = new XMLHttpRequest();
-
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      alert('Order approved!');
-    } else {
-      console.error(xhr.statusText);
-    }
-  };
-
-  xhr.onerror = function () {
-    console.error(xhr.statusText);
-  };
-
-  xhr.open('POST', `/toapprove/${id}`);
-  xhr.send();
+  loadOrders('/hystory/incoming', 'table-container');
 }
 </script>
 <style>
-.all{
-    padding: 50px; 
-    display: grid;
-    grid-template-rows: 90px auto;
-}
+    .all{
+        padding: 50px;
+        display: grid;
+        grid-template-rows: 90px auto;
+    }
 #table-container{
     text-align: center;
 }
-</style>
+    </style>    

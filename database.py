@@ -80,9 +80,20 @@ class Database:
         self.cursor.execute('''
             INSERT INTO accounts (login, password, functionality, warehouse)
             VALUES (?, ?, ?, ?)
-        ''', (login, password, "3", warehouse_id))
+        ''', (login, password, "1,2", warehouse_id))
         self.conn.commit()
     def register_user(self, login, password, functionality ,warehouse_id):
+        functions = functionality.split()
+        results = []
+        for functional in functions:
+            self.cursor.execute('SELECT id FROM functionality WHERE name = ?', (functional,))
+            results.append(self.cursor.fetchone())
+        functionality = ''
+        for result in results:
+            functionality += f'{result[0]},'
+        else:
+            functionality = functionality[:-1]
+
         self.cursor.execute('''
             INSERT INTO accounts (login, password, functionality, warehouse)
             VALUES (?, ?, ?, ?)
@@ -153,6 +164,7 @@ class Database:
         for functional in functionality:
             self.cursor.execute('SELECT id FROM functionality WHERE name = ?', (functional,))
             results.append(self.cursor.fetchone())
+        print(results)
         functionality = ''
         for result in results:
             functionality += f'{result[0]},'
@@ -179,5 +191,10 @@ class Database:
         login_password = [acc for acc in self.cursor.fetchall()]
         accounts = [[login_password[i][0],login_password[i][1],funcs[i]] for i in range(len(funcs))]
         return accounts
-db = Database('base.db')
-db.edit_functionality(['lorem'],'NeTapka')
+    def delete_user(self,login,warehouse_id):
+        try:
+            self.cursor.execute("DELETE FROM accounts WHERE login=? and  warehouse=?", (login,warehouse_id,))
+            self.conn.commit()
+            return 1
+        except Exception as er:
+            return er

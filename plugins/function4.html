@@ -1,0 +1,99 @@
+<div>
+<div class="card">
+    <div class="content">
+    <form method="post" action="/makeorder">
+        <label htmlFor="client">Инфо клиента:</label>
+        <input type="text" id="client" name="client" />
+        <br /><br />
+        <label htmlFor="type">Тип:</label>
+        <input type="text" id="type" name="type" />
+        <br /><br />
+        <label htmlFor="date">Дата:</label>
+        <input type="text" id="date" name="date" />
+        <br /><br />
+        <label htmlFor="place">Место в хранилище:</label>
+        <input type="text" id="place" name="place" />
+        <br /><br />
+        <input type="submit" value="Make order" />
+    </form>
+    </div>
+    </div>
+</div>
+<style>
+    .card{
+  position: relative;
+  width: 350px;
+  height: 400px;
+  margin:30px;
+  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
+}
+.card .content{
+  padding:20px;
+  text-align: center;
+  transition: 0.5s;
+}
+.card .content h3{
+  font-size: 1,8em;
+  color: #ffffff;
+  z-index: 1; 
+  font-weight: 600;
+}
+.card .content p{
+  font-size: 1em;
+  color: #fff;
+  font-weight: 550;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card .content form {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.card .content label {  
+font-size: 1em;
+color: #fff;
+font-weight: 550;
+margin-top: 5px;
+text-align: left;
+}
+
+.card .content input[type="text"],
+.card .content input[type="password"],
+.card .content input[type="submit"] {
+width: 95%;
+padding: 5px;
+border-radius: 5px;
+border: none;
+background-color: rgba(255, 255, 255, 0.8);
+color: #333;
+font-size: 1em;
+}
+
+.card .content input[type="submit"] {
+width: auto;
+background-color: #007bff;
+color: #fff;
+cursor: pointer;
+transition: all 0.2s ease-in-out;
+width:100%;
+}
+
+.card .content input[type="submit"]:hover {
+background-color: #0062cc;
+}
+</style>
